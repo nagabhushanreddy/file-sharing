@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Sharing Web Application</title>
+</head>
+<body>
+    <h1>File Sharing Web Application</h1>
+    <ul>
+        {% if current_folder %}
+            <li><a href="/navigate?folder=./">Back to Root</a></li>
+        {% endif %}
+        {% for item in folder_contents %}
+            {% if item.type == 'folder' %}
+                <li>
+                    <a href="/navigate?folder={{ (current_folder ~ '/' if current_folder is not none else './') ~ item.name }}">{{ item.name }}</a>
+                </li>
+            {% elif item.type == 'file' %}
+                <li>
+                    <a href="/files?folder={{ current_folder|default('./') }}&filename={{ item.name }}">{{ item.name }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
